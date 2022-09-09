@@ -1,6 +1,8 @@
 import type { AddEmployeePayload } from './types.js';
+import Persistable from '../data-store/persistable.js';
 
-export class Employee {
+export class Employee implements Persistable {
+  id = '';
   name: string;
   salary: number;
   onContract: boolean;
@@ -15,5 +17,9 @@ export class Employee {
     this.currency = emp.currency;
     this.department = emp.department;
     this.subDepartment = emp.sub_department;
+  }
+
+  setId(id:string){
+    this.id = id;
   }
 }

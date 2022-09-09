@@ -6,7 +6,7 @@ import { AddEmployeePayload } from './types.js';
 const router = Router();
 
 router.post('/', (req, res) => {
-  const employee = employeeService.signup({ ...req.body } as AddEmployeePayload);
+  const employee = employeeService.add({ ...req.body } as AddEmployeePayload);
   res.status(201).json({ employee });
 });
 
