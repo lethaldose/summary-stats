@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { httpLogger } from './utils/logger.js';
-import { customerRouter } from './customer/customer-controller.js';
+import { employeeRouter } from './employee/employee-controller.js';
 import errorHandlerMiddleware from './middleware/error-handler.js';
 
 export const getApp = () => {
@@ -17,7 +17,7 @@ export const getApp = () => {
     res.json({ ok: true });
   });
 
-  app.use('/api/v1/customers', customerRouter);
+  app.use('/api/v1/employees', employeeRouter);
   app.use(errorHandlerMiddleware);
 
   return app;
