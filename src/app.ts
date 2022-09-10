@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { httpLogger } from './utils/logger.js';
 import { employeeRouter } from './employee/employee-controller.js';
+import { statsSummaryRouter } from './summary/summary-controller.js';
 import errorHandlerMiddleware from './middleware/error-handler.js';
 
 export const getApp = () => {
@@ -18,6 +19,7 @@ export const getApp = () => {
   });
 
   app.use('/api/v1/employees', employeeRouter);
+  app.use('/api/v1/stats-summary', statsSummaryRouter);
   app.use(errorHandlerMiddleware);
 
   return app;

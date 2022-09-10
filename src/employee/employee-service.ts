@@ -4,7 +4,7 @@ import { Employee } from './employee.js';
 import InMemoryStore from '../data-store/in-memory-store.js';
 
 class EmployeeService {
-  store: InMemoryStore;
+  private store: InMemoryStore;
 
   constructor() {
     this.store = new InMemoryStore();
@@ -23,6 +23,10 @@ class EmployeeService {
 
   remove(id: string): boolean {
     return this.store.remove(id);
+  }
+
+  all(): Employee[] {
+    return this.store.items as Employee[];
   }
 }
 
