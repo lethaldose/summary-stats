@@ -1,11 +1,11 @@
 {
-  "name": "api-skeleton",
+  "name": "summary-stats",
   "version": "1.0.0",
-  "description": "express typescript skeleton project",
+  "description": "summary stats for employees",
   "keywords": [
     "express",
     "typescript",
-    "skeleton"
+    "stats"
   ],
   "author": "atulverma",
   "license": "ISC",
@@ -33,6 +33,7 @@
     "nanoid": "^4.0.0",
     "pino": "^8.5.0",
     "pino-http": "^8.2.0",
+    "qs": "^6.11.0",
     "typescript": "^4.8.2"
   },
   "devDependencies": {

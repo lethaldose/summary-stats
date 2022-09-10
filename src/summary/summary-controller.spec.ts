@@ -6,34 +6,64 @@ import { AddEmployeePayload } from '../employee/types';
 describe('Summary controller', () => {
   const app = getApp();
 
+  beforeEach(() => {
+    employeeService.add({
+      name: 'Abhishek',
+      salary: '145000',
+      currency: 'USD',
+      department: 'Engineering',
+      sub_department: 'Platform',
+    } as AddEmployeePayload);
+
+    employeeService.add({
+      name: 'Roger',
+      salary: '45500',
+      currency: 'USD',
+      on_contract: 'true',
+      department: 'Engineering',
+      sub_department: 'Platform',
+    } as AddEmployeePayload);
+
+    employeeService.add({
+      name: 'Abhishek',
+      salary: '90000',
+      currency: 'USD',
+      department: 'Banking',
+      on_contract: 'true',
+      sub_department: 'Loan',
+    } as AddEmployeePayload);
+
+    employeeService.add({
+      name: 'John',
+      salary: '20000',
+      currency: 'USD',
+      department: 'Banking',
+      sub_department: 'Loan',
+    } as AddEmployeePayload);
+  });
+
   describe('summary', () => {
-    beforeEach(() => {
-      employeeService.add({
-        name: 'Abhishek',
-        salary: '145000',
-        currency: 'USD',
-        department: 'Engineering',
-        sub_department: 'Platform',
-      } as AddEmployeePayload);
-
-      employeeService.add({
-        name: 'Abhishek',
-        salary: '90000',
-        currency: 'USD',
-        department: 'Banking',
-        on_contract: 'true',
-        sub_department: 'Loan',
-      } as AddEmployeePayload);
-    });
-
     it('get summary for all employees', async () => {
       const res = await request(app).get('/api/v1/stats-summary');
       expect(res.status).toEqual(200);
       expect(res.body).toEqual({
         summaryStats: {
-          mean: 117500,
+          mean: 75125,
           max: 145000,
-          min: 90000,
+          min: 20000,
+        },
+      });
+    });
+
+    it('filters employee by on_contract', async () => {
+      const res = await request(app).get('/api/v1/stats-summary').query({ onContract: true });
+
+      expect(res.status).toEqual(200);
+      expect(res.body).toEqual({
+        summaryStats: {
+          mean: 67750,
+          max: 90000,
+          min: 45500,
         },
       });
     });

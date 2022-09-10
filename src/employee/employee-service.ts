@@ -1,9 +1,9 @@
 import { nanoid } from 'nanoid';
-import type { AddEmployeePayload } from './types.js';
+import type { FilterCriteria, AddEmployeePayload } from './types.js';
 import { Employee } from './employee.js';
 import InMemoryStore from '../data-store/in-memory-store.js';
 
-class EmployeeService {
+export default class EmployeeService {
   private store: InMemoryStore;
 
   constructor() {
@@ -27,6 +27,17 @@ class EmployeeService {
 
   all(): Employee[] {
     return this.store.items as Employee[];
+  }
+
+  filter(filterCriteria: FilterCriteria): Employee[] {
+    return this.store.items.filter((item) => {
+      const emp: Employee = item as Employee;
+      let condition = true;
+      if (filterCriteria.onContract) {
+        condition = condition && emp.onContract == true;
+      }
+      return condition;
+    }) as Employee[];
   }
 }
 

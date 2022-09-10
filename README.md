@@ -1,11 +1,10 @@
-# node-api-skeleton
+# Summary Stats API
 
-skeleton api with express and typescript
+API to return summary stats for employees
 
 ## Dependencies
 
-- node v14.17
-- npm v7.20
+- node v16.17
 
 ## Test
 
@@ -29,14 +28,26 @@ npm run prepare
 
 ```
 npm run lint:fix
-npm run format
+npm run prettier:format
 ```
 
 ## Run
 
-- uses nodemon for watching files
+- uses nodemon for watching files in dev mode
 
 ```
 npm run dev
-npm run start2
+```
+
+- build and run
+
+```
+npm run start
+```
+
+- compile and build the project using below command
+- generates the compiled js files in `build` folder
+
+```
+npm run build
 ```
