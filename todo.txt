@@ -8,3 +8,8 @@ pending
 routing
 middleware
 schema validation
+
+
+get by id from store
+handle exception in controller
+stats

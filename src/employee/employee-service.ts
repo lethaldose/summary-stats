@@ -14,11 +14,15 @@ class EmployeeService {
     const newEmployee = new Employee(emp);
     newEmployee.setId(nanoid());
 
-    if(!this.store.add(newEmployee)) {
+    if (!this.store.add(newEmployee)) {
       throw new Error('Cannot add employee');
     }
 
     return newEmployee;
+  }
+
+  remove(id: string): boolean {
+    return this.store.remove(id);
   }
 }
 

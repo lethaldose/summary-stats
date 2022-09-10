@@ -19,7 +19,7 @@ export class Employee implements Persistable {
     this.subDepartment = emp.sub_department;
   }
 
-  setId(id:string){
+  setId(id: string) {
     this.id = id;
   }
 }
