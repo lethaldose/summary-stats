@@ -2,7 +2,7 @@ import Mean from './mean.js';
 import Max from './max.js';
 import Min from './min.js';
 
-export interface SummaryStats {
+export interface Stats {
   mean: number;
   min: number;
   max: number;
@@ -11,7 +11,7 @@ export interface SummaryStats {
 export default class StatsCalculator {
   constructor(private items: number[] = []) {}
 
-  calculate(): SummaryStats {
+  calculate(): Stats {
     const mean = new Mean(this.items).calculate();
     const max = new Max(this.items).calculate();
     const min = new Min(this.items).calculate();
@@ -19,6 +19,6 @@ export default class StatsCalculator {
       mean,
       max,
       min,
-    } as SummaryStats;
+    } as Stats;
   }
 }

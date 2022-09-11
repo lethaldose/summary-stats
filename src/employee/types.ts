@@ -6,6 +6,3 @@ export interface AddEmployeePayload {
   department: string;
   sub_department: string;
 }
-export interface FilterCriteria {
-  onContract?: boolean;
-}

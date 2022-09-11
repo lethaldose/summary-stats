@@ -47,11 +47,15 @@ describe('Summary controller', () => {
       const res = await request(app).get('/api/v1/stats-summary');
       expect(res.status).toEqual(200);
       expect(res.body).toEqual({
-        summaryStats: {
-          mean: 75125,
-          max: 145000,
-          min: 20000,
-        },
+        summaryStats: [
+          {
+            stats: {
+              mean: 75125,
+              max: 145000,
+              min: 20000,
+            },
+          },
+        ],
       });
     });
 
@@ -60,11 +64,49 @@ describe('Summary controller', () => {
 
       expect(res.status).toEqual(200);
       expect(res.body).toEqual({
-        summaryStats: {
-          mean: 67750,
-          max: 90000,
-          min: 45500,
-        },
+        summaryStats: [
+          {
+            stats: {
+              mean: 67750,
+              max: 90000,
+              min: 45500,
+            },
+          },
+        ],
+      });
+    });
+  });
+
+  describe('group by', () => {
+    xit('group response by department', async () => {
+      const res = await request(app)
+        .get('/api/v1/stats-summary')
+        .query({ groupBy: ['department'] });
+
+      expect(res.status).toEqual(200);
+      expect(res.body).toEqual({
+        summaryStats: [
+          {
+            stats: {
+              mean: 95250,
+              max: 145000,
+              min: 45500,
+            },
+            group: {
+              department: 'Engineering',
+            },
+          },
+          {
+            stats: {
+              mean: 55000,
+              max: 90000,
+              min: 20000,
+            },
+            group: {
+              department: 'Engineering',
+            },
+          },
+        ],
       });
     });
   });
