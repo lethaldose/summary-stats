@@ -1,32 +1,49 @@
 import { Router } from 'express';
 import { employeeService } from '../employee/employee-service.js';
 import { Employee } from '../employee/employee.js';
-import StatsCalculator, { Stats } from '../stats/stats-calculator.js';
-import { FilterCriteria, SummaryStatsResponse } from './types.js';
-// import HttpException from '../errors/http-exception.js';
-// import { logger } from '../utils/logger.js';
-// const ErrorMessages = {
-// };
+import StatsCalculator, { SummaryStats } from '../stats/stats-calculator.js';
+import EmployeeGrouper, { GroupCriteria } from './employee-grouper.js';
+import { FilterCriteria, SummaryStatsResponse, SummaryStatsGroup, Group } from './types.js';
+import HttpException from '../errors/http-exception.js';
+import { logger } from '../utils/logger.js';
+
+const ErrorMessages = {
+  GroupBySubDepartment:
+    'Only subDepartment is passed in groupBy criteria. Valid values are department or both department and subDepartment',
+  StatsSummary: 'Error getting stats summary',
+};
 
 const router = Router();
 
 router.get('/', (req, res) => {
   try {
     const filterParams: FilterCriteria = req.query as FilterCriteria;
-    const employees: Employee[] = employeeService.filter(filterParams);
-    const stats: Stats = new StatsCalculator(employees.map((e) => e.salary)).calculate();
+    const groupByParams = Array.isArray(req.query.groupBy) ? req.query.groupBy : [req.query.groupBy].filter((g) => g);
+    const groupCriteria = {
+      department: groupByParams.includes('department'),
+      subDepartment: groupByParams.includes('subDepartment'),
+    } as GroupCriteria;
 
-    const response: SummaryStatsResponse = {
-      summaryStats: [
-        {
-          stats,
-        },
-      ],
-    };
+    if (!groupCriteria.department && groupCriteria.subDepartment) {
+      return res.status(400).json({ message: ErrorMessages.GroupBySubDepartment });
+    }
+
+    const employees: Employee[] = employeeService.filter(filterParams);
+    const empGroups = new EmployeeGrouper(groupCriteria, employees).group();
+    const statsGroup: SummaryStatsGroup[] = [];
+    for (const empGroup of empGroups) {
+      const stats: SummaryStats = new StatsCalculator(empGroup.employees.map((e) => e.salary)).calculate();
+      statsGroup.push({
+        group: empGroup.group as Group,
+        stats,
+      });
+    }
+
+    const response: SummaryStatsResponse = { summaryStats: statsGroup };
     res.status(200).json(response);
   } catch (err) {
-    // logger.error(err, ErrorMessages.CreateEmployee);
-    // throw new HttpException(422, ErrorMessages.CreateEmployee);
+    logger.error(err, ErrorMessages.StatsSummary);
+    throw new HttpException(422, ErrorMessages.StatsSummary);
   }
 });
 

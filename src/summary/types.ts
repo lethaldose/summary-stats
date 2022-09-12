@@ -2,7 +2,6 @@ import { Stats } from '../stats/stats-calculator.js';
 
 export interface FilterCriteria {
   onContract?: boolean;
-  groupBy?: string[];
 }
 
 export interface SummaryStatsResponse {
