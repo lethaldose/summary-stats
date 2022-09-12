@@ -2,9 +2,16 @@ import request from 'supertest';
 import { jest } from '@jest/globals';
 import { getApp } from '../app.js';
 import { employeeService } from './employee-service.js';
+import AuthToken from '../authentication/auth-token.js';
+import { AUTH_USER } from '../configuration/index.js';
 
 describe('Employee controller', () => {
   const app = getApp();
+  let token: string;
+
+  beforeEach(() => {
+    token = AuthToken.generate(AUTH_USER);
+  });
 
   afterEach(() => {
     jest.restoreAllMocks();
@@ -19,7 +26,10 @@ describe('Employee controller', () => {
         department: 'Engineering',
         sub_department: 'Platform',
       };
-      const res = await request(app).post('/api/v1/employees').send(attrs);
+      const res = await request(app)
+        .post('/api/v1/employees')
+        .set('Authorization', 'Bearer ' + token)
+        .send(attrs);
 
       const { employee } = res.body;
       expect(res.status).toEqual(201);
@@ -42,7 +52,10 @@ describe('Employee controller', () => {
         sub_department: 'Platform',
         on_contract: 'true',
       };
-      const res = await request(app).post('/api/v1/employees').send(attrs);
+      const res = await request(app)
+        .post('/api/v1/employees')
+        .set('Authorization', 'Bearer ' + token)
+        .send(attrs);
 
       const { employee } = res.body;
       expect(res.status).toEqual(201);
@@ -70,7 +83,11 @@ describe('Employee controller', () => {
         throw new Error('failure adding employee');
       });
 
-      const res = await request(app).post('/api/v1/employees').send(attrs);
+      const res = await request(app)
+        .post('/api/v1/employees')
+        .set('Authorization', 'Bearer ' + token)
+        .send(attrs);
+
       expect(res.status).toEqual(422);
       expect(res.body).toEqual({ status: 422, message: 'Error adding new employee record' });
     });
@@ -86,11 +103,18 @@ describe('Employee controller', () => {
         sub_department: 'Platform',
       };
 
-      const res = await request(app).post('/api/v1/employees').send(attrs);
+      const res = await request(app)
+        .post('/api/v1/employees')
+        .set('Authorization', 'Bearer ' + token)
+        .send(attrs);
+
       const { employee } = res.body;
       expect(res.status).toEqual(201);
 
-      const delRes = await request(app).delete(`/api/v1/employees/${employee.id}`);
+      const delRes = await request(app)
+        .delete(`/api/v1/employees/${employee.id}`)
+        .set('Authorization', 'Bearer ' + token);
+
       expect(delRes.status).toEqual(204);
     });
   });

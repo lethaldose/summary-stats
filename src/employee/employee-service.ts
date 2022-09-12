@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
-import type { FilterCriteria, AddEmployeePayload } from './types.js';
+import type { AddEmployeePayload } from './types.js';
+import type { FilterCriteria } from '../summary/types.js';
 import { Employee } from './employee.js';
 import InMemoryStore from '../data-store/in-memory-store.js';
 

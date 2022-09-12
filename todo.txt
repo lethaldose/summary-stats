@@ -1,9 +1,9 @@
 pending
 =========
-
 authentication
 schema validation
 docker files
-swagger
 error handling
-logging
+logging in grouper and stats calculator ?
+ts;[7053] error
+swagger

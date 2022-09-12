@@ -4,11 +4,16 @@ import { employeeService } from '../employee/employee-service.js';
 import { AddEmployeePayload } from '../employee/types.js';
 import { Express } from 'express';
 import { jest } from '@jest/globals';
+import AuthToken from '../authentication/auth-token.js';
+import { AUTH_USER } from '../configuration/index.js';
 
 describe('Summary controller', () => {
   let app: Express;
+  let token: string;
 
   beforeEach(() => {
+    token = AuthToken.generate(AUTH_USER);
+
     app = getApp();
     employeeService.add({
       name: 'Abhishek',
@@ -51,7 +56,10 @@ describe('Summary controller', () => {
 
   describe('summary', () => {
     it('get summary for all employees', async () => {
-      const res = await request(app).get('/api/v1/stats-summary');
+      const res = await request(app)
+        .get('/api/v1/stats-summary')
+        .set('Authorization', 'Bearer ' + token);
+
       expect(res.status).toEqual(200);
       expect(res.body).toEqual({
         summaryStats: [
@@ -67,7 +75,10 @@ describe('Summary controller', () => {
     });
 
     it('filters employee by on_contract', async () => {
-      const res = await request(app).get('/api/v1/stats-summary').query({ onContract: true });
+      const res = await request(app)
+        .get('/api/v1/stats-summary')
+        .set('Authorization', 'Bearer ' + token)
+        .query({ onContract: true });
 
       expect(res.status).toEqual(200);
       expect(res.body).toEqual({
@@ -87,7 +98,11 @@ describe('Summary controller', () => {
       jest.spyOn(employeeService, 'filter').mockImplementation(() => {
         throw new Error('error filtering');
       });
-      const res = await request(app).get('/api/v1/stats-summary').query({ onContract: true });
+      const res = await request(app)
+        .get('/api/v1/stats-summary')
+        .set('Authorization', 'Bearer ' + token)
+        .query({ onContract: true });
+
       expect(res.status).toEqual(422);
       expect(res.body).toEqual({ status: 422, message: 'Error getting stats summary' });
     });
@@ -95,7 +110,10 @@ describe('Summary controller', () => {
 
   describe('group by', () => {
     it('group response by department', async () => {
-      const res = await request(app).get('/api/v1/stats-summary').query({ groupBy: 'department' });
+      const res = await request(app)
+        .get('/api/v1/stats-summary')
+        .set('Authorization', 'Bearer ' + token)
+        .query({ groupBy: 'department' });
 
       expect(res.status).toEqual(200);
       expect(res.body).toMatchObject({
@@ -127,6 +145,7 @@ describe('Summary controller', () => {
     it('group response by department and sub department', async () => {
       const res = await request(app)
         .get('/api/v1/stats-summary')
+        .set('Authorization', 'Bearer ' + token)
         .query({ groupBy: ['department', 'subDepartment'] });
 
       expect(res.status).toEqual(200);
@@ -147,7 +166,10 @@ describe('Summary controller', () => {
     });
 
     it('returns bad request error if only subDepartment is passed in', async () => {
-      const res = await request(app).get('/api/v1/stats-summary').query({ groupBy: 'subDepartment' });
+      const res = await request(app)
+        .get('/api/v1/stats-summary')
+        .set('Authorization', 'Bearer ' + token)
+        .query({ groupBy: 'subDepartment' });
 
       expect(res.status).toEqual(400);
       expect(res.body).toEqual({
