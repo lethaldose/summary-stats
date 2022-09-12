@@ -1,4 +1,4 @@
-import { Stats } from '../stats/stats-calculator.js';
+import { SummaryStats } from '../stats/stats-calculator.js';
 
 export interface FilterCriteria {
   onContract?: boolean;
@@ -9,7 +9,7 @@ export interface SummaryStatsResponse {
 }
 
 export interface SummaryStatsGroup {
-  stats: Stats;
+  stats: SummaryStats;
   group?: Group;
 }
 

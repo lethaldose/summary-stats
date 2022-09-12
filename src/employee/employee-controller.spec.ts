@@ -118,4 +118,21 @@ describe('Employee controller', () => {
       expect(delRes.status).toEqual(204);
     });
   });
+
+  describe('validation', () => {
+    it('validates employee record', async () => {
+      const res = await request(app)
+        .post('/api/v1/employees')
+        .set('Authorization', 'Bearer ' + token)
+        .send({});
+
+      expect(res.status).toEqual(400);
+      expect(res.body).toEqual([
+        { message: '"name" is required', path: ['name'] },
+        { message: '"department" is required', path: ['department'] },
+        { message: '"currency" is required', path: ['currency'] },
+        { message: '"salary" is required', path: ['salary'] },
+      ]);
+    });
+  });
 });

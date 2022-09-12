@@ -6,6 +6,8 @@ import EmployeeGrouper, { GroupCriteria } from './employee-grouper.js';
 import { FilterCriteria, SummaryStatsResponse, SummaryStatsGroup, Group } from './types.js';
 import HttpException from '../errors/http-exception.js';
 import { logger } from '../utils/logger.js';
+import ValidateSchema, { ValidationProp } from '../middleware/schema-validator.js';
+import { summaryStatsQueryScheme } from '../validators/validators.js';
 
 const ErrorMessages = {
   GroupBySubDepartment:
@@ -15,7 +17,7 @@ const ErrorMessages = {
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', ValidateSchema(summaryStatsQueryScheme, ValidationProp.query), (req, res) => {
   try {
     const filterParams: FilterCriteria = req.query as FilterCriteria;
     const groupByParams = Array.isArray(req.query.groupBy) ? req.query.groupBy : [req.query.groupBy].filter((g) => g);

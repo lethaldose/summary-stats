@@ -3,6 +3,8 @@ import HttpException from '../errors/http-exception.js';
 import { logger } from '../utils/logger.js';
 import { AUTH_PASSWORD, AUTH_USER } from '../configuration/index.js';
 import AuthToken from './auth-token.js';
+import ValidateSchema from '../middleware/schema-validator.js';
+import { loginSchema } from '../validators/validators.js';
 
 const router = Router();
 
@@ -10,7 +12,7 @@ const authenticateUser = (username: string, password: string) => {
   return username === AUTH_USER && password === AUTH_PASSWORD;
 };
 
-router.post('/login', (req, res) => {
+router.post('/login', ValidateSchema(loginSchema), (req, res) => {
   try {
     const { username, password } = req.body;
     if (!authenticateUser(username, password)) {

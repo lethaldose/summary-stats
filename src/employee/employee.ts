@@ -5,7 +5,7 @@ export class Employee implements Persistable {
   id = '';
   name: string;
   salary: number;
-  onContract: boolean;
+  onContract?: boolean;
   currency: string;
   department: string;
   subDepartment: string;

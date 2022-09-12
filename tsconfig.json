@@ -9,7 +9,7 @@
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
     // "baseUrl": "src",
-    // "strict": true,
+    "strict": true,
     // "paths": {
     //   "*": ["node_modules/*"],
     //   "src/*": ["./*"]

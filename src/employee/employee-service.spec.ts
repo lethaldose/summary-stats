@@ -1,5 +1,6 @@
 import EmployeeService from './employee-service.js';
-import { AddEmployeePayload, FilterCriteria } from './types.js';
+import { AddEmployeePayload } from './types.js';
+import { FilterCriteria } from '../summary/types.js';
 
 describe('EmployeeService', () => {
   describe('filter', () => {

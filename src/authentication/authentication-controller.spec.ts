@@ -11,8 +11,8 @@ describe('Authentication controller', () => {
 
   it('succesfully authenticates user', async () => {
     const attrs = {
-      username: 'foo',
-      password: 'bar',
+      username: 'johndoe',
+      password: 'johndoedoe',
     };
     const res = await request(app).post('/api/v1/login').send(attrs);
 
@@ -24,16 +24,21 @@ describe('Authentication controller', () => {
 
   it('gives unauthorized error', async () => {
     const attrs = {
-      username: 'foo',
+      username: 'johndoe',
+      password: 'invalidpwd',
     };
     const res = await request(app).post('/api/v1/login').send(attrs);
     expect(res.status).toEqual(401);
     expect(res.body).toEqual({});
   });
 
-  // it('validates request', async () => {
-  //   const res = await request(app).post('/api/v1/login').send(attrs);
-  //   expect(res.status).toEqual(400);
-  //   expect(res.body).toEqual({});
-  // });
+  it('validates request parameters', async () => {
+    const res = await request(app).post('/api/v1/login').send({});
+
+    expect(res.status).toEqual(400);
+    expect(res.body).toEqual([
+      { message: '"username" is required', path: ['username'] },
+      { message: '"password" is required', path: ['password'] },
+    ]);
+  });
 });

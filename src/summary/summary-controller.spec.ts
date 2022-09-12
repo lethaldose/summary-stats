@@ -106,6 +106,18 @@ describe('Summary controller', () => {
       expect(res.status).toEqual(422);
       expect(res.body).toEqual({ status: 422, message: 'Error getting stats summary' });
     });
+
+    it('validates request parameters', async () => {
+      const res = await request(app)
+        .get('/api/v1/stats-summary')
+        .set('Authorization', 'Bearer ' + token)
+        .query({ groupBy: ['invalid-group'] });
+
+      expect(res.status).toEqual(400);
+      expect(res.body).toEqual([
+        { message: '"groupBy" must be one of [department, subDepartment]', path: ['groupBy'] },
+      ]);
+    });
   });
 
   describe('group by', () => {

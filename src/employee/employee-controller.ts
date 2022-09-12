@@ -1,9 +1,10 @@
 import { Router } from 'express';
-
 import { employeeService } from './employee-service.js';
 import { AddEmployeePayload } from './types.js';
 import HttpException from '../errors/http-exception.js';
 import { logger } from '../utils/logger.js';
+import ValidateSchema from '../middleware/schema-validator.js';
+import { employeeSchema } from '../validators/validators.js';
 
 const ErrorMessages = {
   CreateEmployee: 'Error adding new employee record',
@@ -11,7 +12,7 @@ const ErrorMessages = {
 
 const router = Router();
 
-router.post('/', (req, res) => {
+router.post('/', ValidateSchema(employeeSchema), (req, res) => {
   try {
     const employee = employeeService.add({ ...req.body } as AddEmployeePayload);
     res.status(201).json({ employee });

@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getApp } from './app';
+import { getApp } from './app.js';
 
 describe('/api/v1/test', () => {
   it('works', async () => {
