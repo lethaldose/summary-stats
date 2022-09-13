@@ -1,13 +1,4 @@
 pending
 =========
-schema validation
-docker files
-error handling
-logging in grouper and stats calculator ?
-ts;[7053] error
 swagger
-
-
-
-done
-authentication
+logging in grouper and stats calculator
