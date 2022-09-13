@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 
-config();
+const envConfigName: string = process.env.NODE_ENV || 'dev';
+config({ path: `./configs/${envConfigName}.env` });
 
 export const PORT: string = process.env.APP_PORT as string;
 export const NODE_ENV: string = process.env.NODE_ENV as string;

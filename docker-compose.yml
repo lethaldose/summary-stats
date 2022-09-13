@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  stats-summary-api:
+    container_name: stats-summary-api
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file: ./docker.env
+    ports:
+      - '3001:8080'
