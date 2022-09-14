@@ -1,4 +1,5 @@
 import { Employee } from '../employee/employee.js';
+import { GroupCriteria } from './types.js';
 
 export interface EmployeeGroup {
   employees: Employee[];
@@ -8,11 +9,6 @@ export interface EmployeeGroup {
 export interface Group {
   department: string;
   subDepartment?: string;
-}
-
-export interface GroupCriteria {
-  department?: boolean;
-  subDepartment?: boolean;
 }
 
 export default class EmployeeGrouper {

@@ -4,6 +4,16 @@ export interface FilterCriteria {
   onContract?: boolean;
 }
 
+export interface GroupCriteria {
+  department?: boolean;
+  subDepartment?: boolean;
+}
+
+export interface StatsQuery {
+  onContract?: boolean;
+  groupBy: string | string[];
+}
+
 export interface SummaryStatsResponse {
   summaryStats: SummaryStatsGroup[];
 }

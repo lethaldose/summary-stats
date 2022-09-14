@@ -1,5 +1,6 @@
 import { Employee } from '../employee/employee.js';
-import EmployeeGrouper, { EmployeeGroup, GroupCriteria } from './employee-grouper.js';
+import EmployeeGrouper, { EmployeeGroup } from './employee-grouper.js';
+import { GroupCriteria } from './types.js';
 
 describe('Employee Grouper', () => {
   let employeeList: Employee[];
