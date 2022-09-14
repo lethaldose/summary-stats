@@ -1,7 +1,7 @@
 import { SummaryStats } from '../stats/stats-calculator.js';
 
 export interface FilterCriteria {
-  onContract?: boolean;
+  onContract?: boolean | undefined;
 }
 
 export interface GroupCriteria {
@@ -10,7 +10,7 @@ export interface GroupCriteria {
 }
 
 export interface StatsQuery {
-  onContract?: boolean;
+  onContract?: string | undefined;
   groupBy: string | string[];
 }
 

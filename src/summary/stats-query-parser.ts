@@ -5,7 +5,7 @@ export class StatsQueryParser {
 
   filterCriteria(): FilterCriteria {
     return {
-      onContract: this.query.onContract,
+      onContract: this.query.onContract ? this.query.onContract.toLowerCase() === 'true' : undefined,
     } as FilterCriteria;
   }
   groupByCriteria(): GroupCriteria {

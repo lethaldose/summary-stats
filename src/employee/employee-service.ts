@@ -34,8 +34,8 @@ export default class EmployeeService {
     return this.store.items.filter((item) => {
       const emp: Employee = item as Employee;
       let condition = true;
-      if (filterCriteria.onContract) {
-        condition = condition && emp.onContract == true;
+      if (filterCriteria.onContract != undefined) {
+        condition = condition && emp.onContract == filterCriteria.onContract;
       }
       return condition;
     }) as Employee[];

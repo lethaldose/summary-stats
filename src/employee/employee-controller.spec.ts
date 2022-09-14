@@ -38,6 +38,7 @@ describe('Employee controller', () => {
         name: 'Abhishek',
         salary: 145000,
         currency: 'USD',
+        onContract: false,
         department: 'Engineering',
         subDepartment: 'Platform',
       });

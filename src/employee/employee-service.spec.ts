@@ -31,9 +31,15 @@ describe('EmployeeService', () => {
       expect(emps[0].onContract).toBeTruthy();
     });
 
-    it('should not filter emloyees by onContract', () => {
+    it('should not filter emloyees by onContract if it is not set', () => {
       const emps = empSvc.filter({} as FilterCriteria);
       expect(emps.length).toEqual(2);
+    });
+
+    it('should filter emloyees who are not onContract', () => {
+      const emps = empSvc.filter({ onContract: false } as FilterCriteria);
+      expect(emps.length).toEqual(1);
+      expect(emps[0].onContract).toBeFalsy();
     });
   });
 });
