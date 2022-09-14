@@ -9,6 +9,7 @@ API to return summary stats for employees
 ## Design
 
 - The API is structured to be a RESTful HTTP API
+- Each record added is called an **Employee**
 - The App has 3 controllers:
   - Authentication Controller: To authenticate and issue jwt token
     - `POST /api/v1/login`
@@ -20,6 +21,7 @@ API to return summary stats for employees
     - `GET/api/v1/stats-summary`: Get summary for all employees
     - `GET /api/v1/stats-summary?onContract=true` Get summary for onContract employees
     - `GET /api/v1/stats-summary?groupBy=department&groupBy=subDepartment`: Get summary grouped by department and subDepartment
+    - `GET /api/v1/stats-summary?onContract=true&groupBy=department&groupBy=subDepartment`: Get summary grouped by department and subDepartment for onContract employees
 
 ### Stats Summary Response
 
@@ -123,6 +125,7 @@ API to return summary stats for employees
   - AUTH_PASSWORD (min 8 chars)
 - `dev.env` is default config for dev mode
 - `test.env` is loaded by jest tests
+- `docker.env` is loaded by docker compose
 
 ## Test
 
@@ -138,7 +141,7 @@ npm run:test:unit:watch
 
 - uses nodemon for watching files in dev mode
 - NODE_ENV environment defaults to `dev`
-- Set values for AUTH_USER, AUTH_PASSWORD, JWT_SECRET in configs/dev.env
+- Set values for `AUTH_USER`, `AUTH_PASSWORD`, `JWT_SECRET` in configs/dev.env
 
 ```
 npm run dev
@@ -159,7 +162,7 @@ npm run build
 
 ## Docker compose
 
-- Set values for AUTH_USER, AUTH_PASSWORD, JWT_SECRET in docker.env
+- Set values for `AUTH_USER`, `AUTH_PASSWORD`, `JWT_SECRET` in docker.env
 - docker.env is loaded by docker-compose
 - run following commands
 
