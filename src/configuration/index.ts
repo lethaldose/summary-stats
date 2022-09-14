@@ -3,6 +3,10 @@ import { config } from 'dotenv';
 const envConfigName: string = process.env.NODE_ENV || 'dev';
 config({ path: `./configs/${envConfigName}.env` });
 
+export const validateConfig = () => {
+  return AUTH_USER.length && AUTH_PASSWORD.length && JWT_SECRET.length;
+};
+
 export const PORT: string = process.env.APP_PORT as string;
 export const NODE_ENV: string = process.env.NODE_ENV as string;
 export const LOG_LEVEL: string = process.env.LOG_LEVEL as string;
